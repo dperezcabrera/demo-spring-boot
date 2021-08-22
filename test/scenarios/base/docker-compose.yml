@@ -1,0 +1,67 @@
+version: "3.7"
+
+services:
+#   http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#
+    demo-spring-boot:
+        build: 
+            context: ./../../../
+            dockerfile: Dockerfile
+        environment:
+            DATABASE_URL: "jdbc:postgresql://demo-postgres:5432/demo"
+            DATABASE_USERNAME: demo
+            DATABASE_PASSWORD: changeit
+            DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQLDialect
+        ports:
+        - 8080:8080
+        depends_on: 
+        - demo-postgres
+        - demo-wiremock
+        networks:
+        - demo-frontend-net
+        - demo-backend-net
+
+    demo-postgres:
+        image: postgres:12-alpine
+        environment:
+            POSTGRES_DB: demo
+            POSTGRES_USER: demo
+            POSTGRES_PASSWORD: changeit
+        volumes:
+        - demo-postgres-data:/var/lib/postgresql/data
+#       - ./postgres/initdb:/docker-entrypoint-initdb.d
+        networks:
+        - demo-backend-net
+
+#   http://localhost:8000
+    demo-postgres-admin:
+        image: dpage/pgadmin4:4.24
+        environment:
+            PGADMIN_DEFAULT_EMAIL: admin@a.a
+            PGADMIN_DEFAULT_PASSWORD: changeit-admin
+        volumes:
+        - demo-postgres-admin:/var/lib/pgadmin
+        ports:
+        - 8000:80
+        networks:
+        - demo-backend-net
+        
+#   http://localhost:18080/__admin 
+    demo-wiremock:
+        image: rodolpheche/wiremock:2.27.1
+        volumes:
+        - demo-wiremock-scripts:/home/wiremock
+#       - ./wiremock/scripts:/home/wiremock
+        ports:
+        - 18080:8080
+#        command: --proxy-all="http://x.x" --record-mappings --verbose
+        networks:
+        - demo-backend-net
+
+volumes:
+    demo-postgres-data:
+    demo-postgres-admin:
+    demo-wiremock-scripts:
+
+networks:
+    demo-frontend-net:
+    demo-backend-net:

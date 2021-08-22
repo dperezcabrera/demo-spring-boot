@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: demo-postgres
+    app: demo
+  name: demo-postgres
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      service: demo-postgres
+      app: demo
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        service: demo-postgres
+        app: demo
+    spec:
+      containers:
+      - name: demo-postgres
+        image: postgres:12-alpine
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: demo-configmap
+              key: DB_NAME
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: demo-secrets
+              key: DB_PASSWORD
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: demo-configmap
+              key: DB_USERNAME
+        ports:
+        - containerPort: 5432
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
+          failureThreshold: 6
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - -e
+            - exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
+          failureThreshold: 6
+          initialDelaySeconds: 5
+          periodSeconds: 3
+          successThreshold: 1
+          timeoutSeconds: 5
+        resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: demo-postgres-data
+      restartPolicy: Always
+      volumes:
+      - name: demo-postgres-data
+        persistentVolumeClaim:
+          claimName: demo-postgres-data

@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-spring-boot
+  labels:
+    service: demo-spring-boot
+    app: demo
+spec:
+  selector:
+    matchLabels:
+      service: demo-spring-boot
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  minReadySeconds: 15
+  template:
+    metadata:
+      labels:
+        service: demo-spring-boot
+        app: demo
+    spec:
+      containers:
+      - name: demo-spring-boot
+        image: dperezcabrera/demo-spring-boot:0.0.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: demo-configmap
+        env:
+        - name: APP_URL
+          value: https://demo-app.com
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: demo-secrets
+              key: JWT_SECRET
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: demo-secrets
+              key: DB_PASSWORD
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          failureThreshold: 6
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          failureThreshold: 6
+          initialDelaySeconds: 10
+          periodSeconds: 3
+          successThreshold: 1
+          timeoutSeconds: 5
+        resources:
+          requests:
+            cpu: 500m
+            memory: 256Mi
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        volumeMounts:
+        - name: volume-properties-config-map
+          mountPath: /app/config/
+      volumes:
+      - name: volume-properties-config-map
+        configMap:
+          name: demo-spring-boot-config-map
+      restartPolicy: Always

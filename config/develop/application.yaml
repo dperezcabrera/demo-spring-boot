@@ -1,0 +1,43 @@
+spring:
+    datasource:
+        hikari:
+            connectionTimeout: 20000
+            maximumPoolSize: 3
+        sqlScriptEncoding: UTF-8
+    jmx:
+        enabled: false
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect
+        hibernate:
+            ddl-auto: update
+        open-in-view: false
+        properties:
+            hibernate:
+                jdbc:
+                    lob:
+                        non_contextual_creation: true
+                temp:
+                    use_jdbc_metadata_defaults: false
+    main:
+        lazy-initialization: true
+
+logging:
+    file:
+        name: logs/app.log
+    level:
+        root: info
+        web: error
+    pattern:
+        console: '%-4relative [%thread] %-5level %logger{35} - %msg %n'
+        dateformat: yyyy-MM-dd HH:mm:ss.SSS
+
+jwt:
+    token:
+        secret: 111111111111111111111111111111111111111111111111111111111111111111111
+        
+server:
+    tomcat:
+        threads:
+            max: 3
+app:
+    url: http://localhost:8080

@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+   name: demo-ingress
+spec:
+   rules:
+   - host: demo-app.com
+     http:
+       paths:
+       - path: /
+         pathType: Prefix
+         backend:
+           service:
+             name: demo-spring-boot
+             port:
+               number: 8080
+   tls:
+   - secretName: demo-ssl-secrets
+     hosts:
+       - demo-app.com

@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-spring-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/dperezcabrera/demo-spring-boot.git
+    targetRevision: HEAD
+    path: argocd/demo
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true

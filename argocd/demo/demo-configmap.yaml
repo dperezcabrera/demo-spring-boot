@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-configmap
+data:
+  DB_NAME: "demo"
+  DB_URL: "jdbc:postgresql://demo-postgres:5432/demo"
+  DB_USERNAME: "demo"
+  DB_DRIVER: "org.hibernate.dialect.PostgreSQLDialect"

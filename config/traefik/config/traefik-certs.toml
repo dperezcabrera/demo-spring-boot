@@ -1,0 +1,16 @@
+[[tls.certificates]]
+  certFile = "/config/certs/web.demo-app.com.cert"
+  keyFile  = "/config/certs/web.demo-app.com.key"
+
+[[tls.certificates]]
+  certFile = "/config/certs/prometheus.demo-app.com.cert"
+  keyFile  = "/config/certs/prometheus.demo-app.com.key"
+
+[[tls.certificates]]
+  certFile = "/config/certs/grafana.demo-app.com.cert"
+  keyFile  = "/config/certs/grafana.demo-app.com.key"
+
+[[tls.certificates]]
+  certFile = "/config/certs/traefik.demo-app.com.cert"
+  keyFile  = "/config/certs/traefik.demo-app.com.key"
+

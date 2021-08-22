@@ -1,0 +1,53 @@
+spring:
+    datasource:
+        hikari:
+            connectionTimeout: 20000
+            maximumPoolSize: 5
+        sqlScriptEncoding: UTF-8
+        url: ${DB_URL}
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+    jmx:
+        enabled: false
+    jpa:
+        database-platform: ${DB_DRIVER}
+        hibernate:
+            ddl-auto: update
+        open-in-view: false
+        properties:
+            hibernate:
+                jdbc:
+                    lob:
+                        non_contextual_creation: true
+                temp:
+                    use_jdbc_metadata_defaults: false
+    main:
+        lazy-initialization: true
+
+logging:
+    file:
+        name: logs/app.log
+    level:
+        root: info
+        com.example.demo: debug
+        org.springframework.web: error
+    pattern:
+        console: '%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n'
+
+jwt:
+    token:
+        secret: ${JWT_SECRET}
+        expiration-days: 10
+
+app:
+    url: ${APP_URL}
+
+management:
+    security:
+        enabled: false
+    server:
+        port: 8081
+    endpoints:
+        web:
+            exposure:
+                include: health, info, prometheus
