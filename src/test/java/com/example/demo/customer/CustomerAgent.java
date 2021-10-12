@@ -54,7 +54,7 @@ public class CustomerAgent {
 
     public ResultActions updateCustomer(@NonNull CustomerDto customer) {
         try {
-            return mockMvc.perform(put("/v1/customers/{customerId}", customer.getId())
+            return mockMvc.perform(put("/v1/customers/{customerId}", customer.id())
                     .contentType(MediaType.APPLICATION_JSON)
                     .header(JwtTokenManager.AUTH_HEADER_KEY, authToken)
                     .content(objectMapper.writeValueAsString(customer)));

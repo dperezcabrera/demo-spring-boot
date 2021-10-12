@@ -1,6 +1,7 @@
 package com.example.demo.customer.controllers;
 
 import com.example.demo.customer.dtos.CustomerDto;
+import com.example.demo.customer.dtos.CustomerNameDto;
 import com.example.demo.customer.services.CreateCustomerService;
 import com.example.demo.customer.services.DeleteCustomerByIdService;
 import com.example.demo.customer.services.GetAllCustomersService;
@@ -59,8 +60,8 @@ public class CustomerController {
 
     @PutMapping("/{customerId}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateCustomer(@PathVariable("customerId") Long customerId, @Valid @RequestBody CustomerDto customerDto) {
-        customerDto = customerDto.toBuilder().id(customerId).build();
+    public void updateCustomer(@PathVariable("customerId") Long customerId, @Valid @RequestBody CustomerNameDto dto) {
+        var customerDto = new CustomerDto(customerId, dto.name());
         updateCustomerService.updateCustomer(customerDto);
     }
 

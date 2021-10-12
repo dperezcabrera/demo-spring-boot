@@ -1,4 +1,4 @@
-FROM openjdk:16-slim
+FROM openjdk:17-slim
 LABEL maintainer "David Perez Cabrera <dperezcabrera@gmail.com>"
 
 WORKDIR /app

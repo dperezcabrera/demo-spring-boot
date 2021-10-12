@@ -58,6 +58,6 @@ public class CustomerMother {
     }
 
     private CustomerDto customerDto(Long id, String name) {
-        return CustomerDto.builder().id(id).name(name).build();
+        return new CustomerDto(id, name);
     }
 }

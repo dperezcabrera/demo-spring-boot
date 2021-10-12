@@ -1,16 +1,8 @@
 package com.example.demo.security.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public record UserDto(String username,
+    String name,
+    String email,
+    String password) {
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class UserDto {
-
-    private String username;
-    private String name;
-    private String email;
-    private String password;
 }

@@ -42,8 +42,8 @@ public class UpdateCustomerIT {
 
         // Then
         result.andExpect(status().isOk());
-        var customer = customerAgent.getCustomer(noNameCustomer.getId());
-        assertEquals(expectedName, customer.getName());
+        var customer = customerAgent.getCustomer(noNameCustomer.id());
+        assertEquals(expectedName, customer.name());
     }
 
     @Test

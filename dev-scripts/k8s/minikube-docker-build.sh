@@ -1,6 +1,6 @@
 #! /bin/bash
 
-cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../../"
+cd `dirname "$0"`/../..
 
 WORK_DIR=demo-app
 

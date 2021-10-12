@@ -1,6 +1,6 @@
 #! /bin/bash
 
-cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../../config/k8s"
+cd `dirname "$0"`/../../config/k8s"
 
 function create_cert() {
     DOMAIN=$1

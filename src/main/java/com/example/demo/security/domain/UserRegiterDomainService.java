@@ -17,8 +17,8 @@ public class UserRegiterDomainService {
     private final PasswordEncoder passwordEncoder;
 
     public void register(@NonNull UserDto userDto) {
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        var user = userMapper.map(userDto);
+        var encodedPassword = passwordEncoder.encode(userDto.password());
+        var user = userMapper.map(userDto, encodedPassword);
         userRepository.save(user);
     }
 }

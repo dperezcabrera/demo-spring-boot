@@ -13,7 +13,8 @@ public interface UserMapper {
     @Mapping(target = "password", ignore = true)
     UserDto map(User user, List<String> roles, List<String> privileges);
 
-    User map(UserDto user);
+    @Mapping(target = "password", source = "encodePassword")
+    User map(UserDto user, String encodePassword);
 
     default UserDetails map(User u, List<String> roles) {
         return org.springframework.security.core.userdetails.User

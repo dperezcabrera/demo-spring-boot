@@ -33,7 +33,7 @@ public class UpdateCustomerDbIT {
 
         // When
         updateCustomerService.updateCustomer(john);
-        var result = customerRepository.getById(john.getId());
+        var result = customerRepository.getById(john.id());
 
         // Then
         assertEquals(expectedCustomer, result);

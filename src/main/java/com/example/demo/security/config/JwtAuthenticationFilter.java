@@ -27,7 +27,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
         try {
             var c = new ObjectMapper().readValue(req.getInputStream(), CredentialsDto.class);
-            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(c.getUsername(), c.getPassword(), Collections.emptyList()));
+            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(c.username(), c.password(), Collections.emptyList()));
         } catch (IOException e) {
             throw new AuthenticationCredentialsNotFoundException("Failed to resolve authentication credentials", e);
         }

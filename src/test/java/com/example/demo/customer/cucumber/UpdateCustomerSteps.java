@@ -32,13 +32,13 @@ public class UpdateCustomerSteps {
 
     @When("cambiamos el nombre de este cliente por {word}")
     public void cambiamos_el_nombre_de_este_cliente_por(String newName) throws Exception {
-        CustomerDto customerDto = new CustomerDto(initialCustomer.getId(), newName);
+        CustomerDto customerDto = new CustomerDto(initialCustomer.id(), newName);
         customerAgent.updateCustomer(customerDto).andExpect(status().isOk());
     }
 
     @Then("tras consultarlo otra vez, su nombre debe ser {word}")
     public void tras_consultarlo_nuevamente_su_nombre_debe_ser_John(String newName) throws Exception {
-        initialCustomer = customerAgent.getCustomer(initialCustomer.getId());
-        assertEquals(newName, initialCustomer.getName());
+        initialCustomer = customerAgent.getCustomer(initialCustomer.id());
+        assertEquals(newName, initialCustomer.name());
     }
 }

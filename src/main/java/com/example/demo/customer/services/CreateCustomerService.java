@@ -18,8 +18,8 @@ public class CreateCustomerService {
 
     @Transactional
     public void createCustomer(@NonNull CustomerDto customerDto) {
-        notNull(customerDto.getName(), "El nombre no puede ser nulo");
-        var customer = customerMapper.map(customerDto.getName());
+        notNull(customerDto.name(), "El nombre no puede ser nulo");
+        var customer = customerMapper.map(customerDto.name());
         customerRepository.save(customer);
     }
 }

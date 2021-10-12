@@ -44,7 +44,7 @@ public class UpdateCustomerServiceTest {
         var defaultNameCustomer = customerMother.defaultNameCustomer();
         var john = customerMother.johnDto();
         var expectedCustomer = customerMother.john();
-        given(customerRepository.getOne(defaultNameCustomer.getId())).willReturn(defaultNameCustomer);
+        given(customerRepository.getById(defaultNameCustomer.getId())).willReturn(defaultNameCustomer);
 
         // When
         instance.updateCustomer(john);
@@ -58,7 +58,7 @@ public class UpdateCustomerServiceTest {
         // Given
         var john = customerMother.johnDto();
         var expectedException = new EntityNotFoundException();
-        given(customerRepository.getOne(john.getId())).willThrow(expectedException);
+        given(customerRepository.getById(john.id())).willThrow(expectedException);
 
         // When
         var exception = assertThrows(EntityNotFoundException.class, () -> instance.updateCustomer(john));

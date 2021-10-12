@@ -18,9 +18,9 @@ public class UpdateCustomerService {
 
     @Transactional
     public void updateCustomer(@NonNull CustomerDto customerDto) {
-        notNull(customerDto.getId(), "El identificador no puede ser nulo");
-        notNull(customerDto.getName(), "El nombre no puede ser nulo");
-        var customer = customerRepository.getOne(customerDto.getId());
+        notNull(customerDto.id(), "El identificador no puede ser nulo");
+        notNull(customerDto.name(), "El nombre no puede ser nulo");
+        var customer = customerRepository.getById(customerDto.id());
         customerMapper.map(customerDto, customer);
         customerRepository.save(customer);
     }
