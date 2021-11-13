@@ -8,6 +8,7 @@ spec:
   type: NodePort
   ports:
   - port: 8080
+    name: http-traffic
     nodePort: 30000
   selector:
     service: demo-spring-boot

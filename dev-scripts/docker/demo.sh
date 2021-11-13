@@ -81,7 +81,7 @@ function admin_db_start() {
 }
 
 function web_login(){
-    curl -i -H "Content-Type: application/json" -X POST -d '{"username": "admin", "password": "1"}' http://localhost:8080/login 2>/dev/null | grep 'Authorization: '| cut -f2- -d" "
+    curl -i -H "Content-Type: application/json" -X POST -d '{"username": "admin", "password": "1"}' http://localhost:8080/api/v1/login 2>/dev/null | grep 'Authorization: '| cut -f2- -d" "
 }
 
 function web_start() {

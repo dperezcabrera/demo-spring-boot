@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/v1/customers")
+@RequestMapping(path = "/api/v1/customers")
 public class CustomerController {
 
     private final UpdateCustomerService updateCustomerService;

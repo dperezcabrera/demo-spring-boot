@@ -10,7 +10,6 @@ function build_docker() {
 
 function main() {
     build_docker
-
 }
 
 main "${@}"

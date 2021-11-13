@@ -6,7 +6,6 @@ import io.jsonwebtoken.security.Keys;
 import java.sql.Date;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Objects;
 import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,8 +29,9 @@ public class JwtTokenManager {
     }
 
     public void obtainUserFromJwt(HttpServletRequest request) {
-        var username = jwtToUsername(request.getHeader(AUTH_HEADER_KEY));
-        if (username != null) {
+        var jwtToken = extractJwtToken(request);
+        if (jwtToken != null) {
+            var username = extractUsernameFromJwt(jwtToken);
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, List.of());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
@@ -41,16 +41,19 @@ public class JwtTokenManager {
         response.addHeader(AUTH_HEADER_KEY, userToJwt(subject));
     }
 
-    public String jwtToUsername(String header) {
-        if (Objects.nonNull(header) && header.startsWith(JwtTokenManager.TOKEN_PREFIX)) {
-            return Jwts.parserBuilder()
-                    .setSigningKey(secretKey)
-                    .build()
-                    .parseClaimsJws(header.replace(TOKEN_PREFIX, ""))
-                    .getBody()
-                    .getSubject();
-        }
-        return null;
+    private String extractJwtToken(HttpServletRequest request) {
+        var authHeader = request.getHeader(AUTH_HEADER_KEY);
+        return (authHeader != null && authHeader.startsWith(JwtTokenManager.TOKEN_PREFIX)) ? 
+                authHeader.replace(TOKEN_PREFIX, "") : null;
+    }
+
+    public String extractUsernameFromJwt(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 
     public String userToJwt(String subject) {

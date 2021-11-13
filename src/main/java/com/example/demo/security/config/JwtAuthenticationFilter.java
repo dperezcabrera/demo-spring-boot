@@ -22,11 +22,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenManager jwtTokenManager;
+    private final ObjectMapper objectMapper;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
         try {
-            var c = new ObjectMapper().readValue(req.getInputStream(), CredentialsDto.class);
+            var c = objectMapper.readValue(req.getInputStream(), CredentialsDto.class);
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(c.username(), c.password(), Collections.emptyList()));
         } catch (IOException e) {
             throw new AuthenticationCredentialsNotFoundException("Failed to resolve authentication credentials", e);
