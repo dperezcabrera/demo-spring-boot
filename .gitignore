@@ -1,0 +1,8 @@
+/logs/
+/target/
+/nbproject/
+/.allure/
+/allure-results/
+/nb-configuration.xml
+/secret.txt
+/.idea/

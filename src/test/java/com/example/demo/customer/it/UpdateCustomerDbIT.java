@@ -1,7 +1,7 @@
 package com.example.demo.customer.it;
 
-import com.example.demo.customer.ITConfiguration;
 import com.example.demo.customer.CustomerMother;
+import com.example.demo.customer.ITConfiguration;
 import com.example.demo.customer.repositories.CustomerRepository;
 import com.example.demo.customer.services.UpdateCustomerService;
 import lombok.RequiredArgsConstructor;

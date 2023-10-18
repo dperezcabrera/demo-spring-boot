@@ -116,4 +116,11 @@
             <activatedProfile>e2e-test</activatedProfile>
         </activatedProfiles>
     </action>
+    <action>
+            <actionName>CUSTOM-spring-boot:build-image</actionName>
+            <displayName>spring-boot:build-image</displayName>
+            <goals>
+                <goal>spring-boot:build-image</goal>
+            </goals>
+        </action>
 </actions>

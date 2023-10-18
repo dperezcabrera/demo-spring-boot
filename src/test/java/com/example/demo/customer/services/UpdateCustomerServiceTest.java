@@ -3,7 +3,7 @@ package com.example.demo.customer.services;
 import com.example.demo.customer.CustomerMother;
 import com.example.demo.customer.dtos.CustomerDto;
 import com.example.demo.customer.repositories.CustomerRepository;
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

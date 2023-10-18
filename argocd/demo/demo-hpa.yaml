@@ -15,4 +15,3 @@ items:
       kind: Deployment
       name: demo-spring-boot
     targetCPUUtilizationPercentage: 65
-

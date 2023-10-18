@@ -31,7 +31,7 @@ public class CustomerAgent {
 
     public CustomerAgent registered() {
         try {
-            mockMvc.perform(post("/user/register")
+            mockMvc.perform(post("/api/v1/user/register")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(new UserDto(username, username, username + "@email.com", password))));
             return this;
@@ -42,7 +42,7 @@ public class CustomerAgent {
 
     public CustomerAgent authenticated() {
         try {
-            authToken = mockMvc.perform(post("/login")
+            authToken = mockMvc.perform(post("/api/v1/login")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(new CredentialsDto(username, password))))
                     .andReturn().getResponse().getHeader(JwtTokenManager.AUTH_HEADER_KEY);
@@ -54,7 +54,7 @@ public class CustomerAgent {
 
     public ResultActions updateCustomer(@NonNull CustomerDto customer) {
         try {
-            return mockMvc.perform(put("/v1/customers/{customerId}", customer.id())
+            return mockMvc.perform(put("/api/v1/customers/{customerId}", customer.id())
                     .contentType(MediaType.APPLICATION_JSON)
                     .header(JwtTokenManager.AUTH_HEADER_KEY, authToken)
                     .content(objectMapper.writeValueAsString(customer)));
@@ -65,7 +65,7 @@ public class CustomerAgent {
 
     public ResultActions createCustomer(@NonNull CustomerDto customer) {
         try {
-            return mockMvc.perform(post("/v1/customers")
+            return mockMvc.perform(post("/api/v1/customers")
                     .contentType(MediaType.APPLICATION_JSON)
                     .header(JwtTokenManager.AUTH_HEADER_KEY, authToken)
                     .content(objectMapper.writeValueAsString(customer)));
@@ -76,7 +76,7 @@ public class CustomerAgent {
 
     public CustomerDto getCustomer(@NonNull Long customerId) {
         try {
-            var bodyResponse = mockMvc.perform(get("/v1/customers/{customerId}", customerId)
+            var bodyResponse = mockMvc.perform(get("/api/v1/customers/{customerId}", customerId)
                     .header(JwtTokenManager.AUTH_HEADER_KEY, authToken))
                     .andReturn()
                     .getResponse()
@@ -88,7 +88,7 @@ public class CustomerAgent {
     }
 
     public List<CustomerDto> searchCustomersByName(@NonNull String name) throws Exception {
-        String bodyResponse = mockMvc.perform(get("/v1/customers/search?name={named}", name)
+        String bodyResponse = mockMvc.perform(get("/api/v1/customers/search?name={named}", name)
                 .header(JwtTokenManager.AUTH_HEADER_KEY, authToken))
                 .andReturn().getResponse().getContentAsString();
         return Arrays.asList(objectMapper.readValue(bodyResponse, CustomerDto[].class));

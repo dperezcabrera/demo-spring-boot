@@ -3,12 +3,12 @@ package com.example.demo.security.config;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
 import java.time.ZonedDateTime;
 import java.util.List;
 import javax.crypto.SecretKey;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,18 +48,18 @@ public class JwtTokenManager {
     }
 
     public String extractUsernameFromJwt(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
+        return Jwts.parser()
+                .verifyWith(secretKey)
                 .build()
-                .parseClaimsJws(token)
-                .getBody()
+                .parseSignedClaims(token)
+                .getPayload()
                 .getSubject();
     }
 
     public String userToJwt(String subject) {
         return TOKEN_PREFIX + Jwts.builder()
-                .setSubject(subject)
-                .setExpiration(Date.from(ZonedDateTime.now().plusDays(expirationDays).toInstant()))
+                .subject(subject)
+                .expiration(Date.from(ZonedDateTime.now().plusDays(expirationDays).toInstant()))
                 .signWith(secretKey)
                 .compact();
     }

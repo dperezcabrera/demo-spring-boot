@@ -1,19 +1,15 @@
 package com.example.demo.customer.it;
 
-import com.example.demo.customer.ITConfiguration;
 import com.example.demo.customer.CustomerAgent;
 import com.example.demo.customer.CustomerMother;
+import com.example.demo.customer.ITConfiguration;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

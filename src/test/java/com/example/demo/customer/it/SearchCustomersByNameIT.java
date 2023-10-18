@@ -1,8 +1,8 @@
 package com.example.demo.customer.it;
 
-import com.example.demo.customer.ITConfiguration;
 import com.example.demo.customer.CustomerAgent;
 import com.example.demo.customer.CustomerMother;
+import com.example.demo.customer.ITConfiguration;
 import java.util.Arrays;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;

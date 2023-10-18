@@ -1,10 +1,10 @@
 package com.example.demo.logging;
 
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.UUID;
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.security.core.Authentication;
@@ -37,10 +37,10 @@ public class StatsFilter implements Filter {
             }
             chain.doFilter(req, resp);
             time = System.currentTimeMillis() - time;
-            log.debug("{}: {} ms ", ((HttpServletRequest) req).getRequestURI(), time);
+            log.debug("{} {}: {} ms ", ((HttpServletRequest) req).getMethod(), ((HttpServletRequest) req).getRequestURI(), time);
         } catch (Exception e) {
             time = System.currentTimeMillis() - time;
-            log.error("{}: {} ms ", ((HttpServletRequest) req).getRequestURI(), time);
+            log.error("{} {}: {} ms ", ((HttpServletRequest) req).getMethod(), ((HttpServletRequest) req).getRequestURI(), time);
             throw e;
         } finally {
             if (authentication != null) {

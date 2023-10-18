@@ -1,5 +1,7 @@
 #! /bin/bash
 
+# http://localhost:8080/swagger-ui/index.html#/
+
 # Initialization
 LOCATION="$(cd "$( dirname "$0" )" && pwd )"
 SCRIPT=`echo $0 | rev | cut -f1 -d"/" | rev`
@@ -63,7 +65,7 @@ function db_start() {
         --env POSTGRES_PASSWORD=$DB_PASSWORD \
         --env POSTGRES_DB=$DB_SCHEMA \
         --env POSTGRES_USER=$DB_USER \
-        postgres:12-alpine
+        postgres:16-alpine
 }
 
 function admin_db_start() {
@@ -97,9 +99,10 @@ function web_start() {
         --env DATABASE_PASSWORD="$DB_PASSWORD" \
         --env DATABASE_PLATFORM="org.hibernate.dialect.PostgreSQLDialect" \
         --env JWT_SECRET="$JWT_SECRET" \
+        --env APP_URL="http://localhost:8080" \
         --volume "$PWD/$APP_BIN:/app/spring-boot-app.jar" \
-        --volume "$PWD/config/docker/application.yaml:/app/config/application.yaml" \
-        openjdk:15-slim java -jar /app/spring-boot-app.jar --spring.config.location=/app/config/application.yaml
+        --volume "$PWD/config/docker/docker-application.yaml:/app/config/application.yaml" \
+        eclipse-temurin:21-jre java -jar /app/spring-boot-app.jar --spring.config.location=/app/config/application.yaml
 }
 
 function web_debug() {
@@ -116,8 +119,8 @@ function web_debug() {
         --env DATABASE_PASSWORD="$DB_PASSWORD" \
         --env DATABASE_PLATFORM="org.hibernate.dialect.PostgreSQLDialect" \
         --volume "$PWD/$APP_BIN:/app/spring-boot-app.jar" \
-        --volume "$PWD/config/docker/application.yaml:/app/config/application.yaml" \
-        openjdk:15-slim java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,address=8888,suspend=n -jar \
+        --volume "$PWD/config/docker/docker-application.yaml:/app/config/application.yaml" \
+        eclipse-temurin:21-jre java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,address=8888,suspend=n -jar \
             --spring.config.location=/app/config/application.yaml
 }
 

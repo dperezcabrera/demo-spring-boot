@@ -1,19 +1,19 @@
 server:
     port: 8080
-
+        
 spring:
     datasource:
         hikari:
             connectionTimeout: 20000
             maximumPoolSize: 5
         sqlScriptEncoding: UTF-8
-        url: ${DB_URL}
-        username: ${DB_USERNAME}
-        password: ${DB_PASSWORD}
+        url: ${DATABASE_URL}
+        username: ${DATABASE_USERNAME}
+        password: ${DATABASE_PASSWORD}
     jmx:
         enabled: false
     jpa:
-        database-platform: ${DB_DRIVER}
+        database-platform: ${DATABASE_PLATFORM}
         hibernate:
             ddl-auto: update
         open-in-view: false
