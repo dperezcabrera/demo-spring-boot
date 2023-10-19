@@ -8,11 +8,14 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
@@ -31,6 +34,8 @@ public class JwtSecurityConfigurer {
     private final ObjectMapper objectMapper;
     private final Environment env;
     private final JwtTokenManager jwtTokenManager;
+    private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
     protected String[] getWhiteListPatterns() {
         return new String[]{
@@ -47,8 +52,9 @@ public class JwtSecurityConfigurer {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        return auth.build();
     }
 
     @Bean
@@ -56,16 +62,16 @@ public class JwtSecurityConfigurer {
         http.formLogin(form -> form.disable())
                 .csrf(csrf -> csrf.disable())
                 .logout(logout -> logout.logoutUrl(LOGOUT_PATH)
-                    .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
-                    .permitAll())
+                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
+                .permitAll())
                 .cors(cors -> cors.configurationSource(corsConfiguration()))
                 .authorizeHttpRequests(auth -> auth
-                    .requestMatchers(HttpMethod.OPTIONS).denyAll()
-                    .requestMatchers(HttpMethod.TRACE).denyAll()
-                    .requestMatchers(HttpMethod.HEAD).denyAll()
-                    .requestMatchers(getWhiteListPatterns()).permitAll()
-                    .requestMatchers("/api/v1/user/me").authenticated()
-                    .anyRequest().authenticated())
+                .requestMatchers(HttpMethod.OPTIONS).denyAll()
+                .requestMatchers(HttpMethod.TRACE).denyAll()
+                .requestMatchers(HttpMethod.HEAD).denyAll()
+                .requestMatchers(getWhiteListPatterns()).permitAll()
+                .requestMatchers("/api/v1/user/me").authenticated()
+                .anyRequest().authenticated())
                 .addFilter(jwtAuthenticationFilter(authManager))
                 .addFilter(jwtAuthorizationFilter(authManager))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -82,6 +88,7 @@ public class JwtSecurityConfigurer {
             if (origin != null) {
                 conf.addAllowedOriginPattern(origin);
             }
+            conf.addAllowedOriginPattern("*");
             return conf;
         };
     }

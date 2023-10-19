@@ -25,8 +25,8 @@ public class CustomerAgent {
     private final MockMvc mockMvc;
     private final ObjectMapper objectMapper;
     
-    private String username = "user1";
-    private String password = "1";
+    private final String username = "user1";
+    private final String password = "1";
     private String authToken = "ignored";
 
     public CustomerAgent registered() {
