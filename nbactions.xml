@@ -5,7 +5,7 @@
         <displayName>run</displayName>
         <goals>
             <goal>spring-boot:run</goal>
-            <!--<goal>-Dspring-boot.run.jvmArguments='-Dspring.config.location=config/develop/application.yaml'</goal>-->
+            <goal>-Dspring-boot.run.jvmArguments='-Dspring.config.location=config/develop/application.yaml'</goal>
         </goals>
         <properties>
             <spring-boot.run.jvmArguments>-Xverify:none -XX:TieredStopAtLevel=1 -XX:+AlwaysPreTouch</spring-boot.run.jvmArguments>
@@ -18,7 +18,7 @@
         </packagings>
         <goals>
             <goal>spring-boot:run</goal>
-            <!--<goal>-Dspring-boot.run.jvmArguments="-Dspring.config.location=config/develop/application.yaml"</goal>-->
+            <goal>-Dspring-boot.run.jvmArguments="-Dspring.config.location=config/develop/application.yaml"</goal>
         </goals>
         <properties>
             <spring-boot.run.jvmArguments>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${symbol_dollar}{jpda.address}</spring-boot.run.jvmArguments>
