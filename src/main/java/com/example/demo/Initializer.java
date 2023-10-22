@@ -1,7 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.security.entities.User;
-import com.example.demo.security.repositories.UserRepository;
+import com.example.demo.security.domain.UserRegiterDomainService;
+import com.example.demo.security.dtos.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -13,13 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class Initializer implements CommandLineRunner {
 
-    private final UserRepository userRepository;
+    private final UserRegiterDomainService userRegiterDomainService;
     
     @Override
     @Transactional
     public void run(String... strings) throws Exception {
         log.info("Initializer run ..");   
-        userRepository.save(new User("user", "User", "user@email.com", "1"));
+        userRegiterDomainService.register(new UserDto("user", "user", "user@email.com", "1"));
         log.info("Initializer ends");
     }
 }
