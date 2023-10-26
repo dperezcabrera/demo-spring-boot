@@ -1,6 +1,7 @@
 package com.example.demo.customer.services;
 
 import com.example.demo.customer.dtos.CustomerDto;
+import com.example.demo.customer.dtos.CustomerNameDto;
 import com.example.demo.customer.entities.Customer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,7 +14,9 @@ public interface CustomerMapper {
 
     @Mapping(target = "id", ignore = true)
     Customer map(String name);
-
+    
     @Mapping(target = "id", ignore = true)
-    Customer map(CustomerDto customerDto, @MappingTarget Customer customer);
+    Customer map(CustomerNameDto customerDto, @MappingTarget Customer customer);
+    
+    CustomerNameDto map(CustomerDto customer);
 }

@@ -3,6 +3,7 @@ package com.example.demo.customer;
 import com.example.demo.customer.services.CustomerMapper;
 import com.example.demo.customer.services.UpdateCustomerService;
 import org.mapstruct.factory.Mappers;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -14,6 +15,7 @@ import org.springframework.test.context.TestPropertySource;
 public class ITConfiguration {
 
     @Bean
+    @ConditionalOnMissingBean(CustomerMapper.class)
     public CustomerMapper customerMapper() {
         return Mappers.getMapper(CustomerMapper.class);
     }

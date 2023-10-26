@@ -1,6 +1,9 @@
 package com.example.demo.customer.dtos;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public record CustomerDto(
         Long id,
-        String name) {
+        @NotEmpty String name) {
+    
 }

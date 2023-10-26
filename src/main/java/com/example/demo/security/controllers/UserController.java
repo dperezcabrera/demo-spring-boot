@@ -3,6 +3,7 @@ package com.example.demo.security.controllers;
 import com.example.demo.security.domain.ObtainMyProfileDomainService;
 import com.example.demo.security.domain.UserRegiterDomainService;
 import com.example.demo.security.dtos.UserDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ public class UserController {
     private final UserRegiterDomainService userRegiterDomainService;
 
     @PostMapping("/register")
-    public void register(@RequestBody UserDto user) {
+    public void register(@Valid @RequestBody UserDto user) {
         userRegiterDomainService.register(user);
     }
 

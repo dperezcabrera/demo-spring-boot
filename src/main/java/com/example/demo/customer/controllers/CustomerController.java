@@ -61,8 +61,7 @@ public class CustomerController {
     @PutMapping("/{customerId}")
     @ResponseStatus(HttpStatus.OK)
     public void updateCustomer(@PathVariable("customerId") Long customerId, @Valid @RequestBody CustomerNameDto dto) {
-        var customerDto = new CustomerDto(customerId, dto.name());
-        updateCustomerService.updateCustomer(customerDto);
+        updateCustomerService.updateCustomer(customerId, dto);
     }
 
     @DeleteMapping("/{customerId}")

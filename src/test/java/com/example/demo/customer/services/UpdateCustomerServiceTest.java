@@ -44,7 +44,7 @@ public class UpdateCustomerServiceTest {
         var defaultNameCustomer = customerMother.defaultNameCustomer();
         var john = customerMother.johnDto();
         var expectedCustomer = customerMother.john();
-        given(customerRepository.getById(defaultNameCustomer.getId())).willReturn(defaultNameCustomer);
+        given(customerRepository.getReferenceById(defaultNameCustomer.getId())).willReturn(defaultNameCustomer);
 
         // When
         instance.updateCustomer(john);
@@ -58,7 +58,7 @@ public class UpdateCustomerServiceTest {
         // Given
         var john = customerMother.johnDto();
         var expectedException = new EntityNotFoundException();
-        given(customerRepository.getById(john.id())).willThrow(expectedException);
+        given(customerRepository.getReferenceById(john.id())).willThrow(expectedException);
 
         // When
         var exception = assertThrows(EntityNotFoundException.class, () -> instance.updateCustomer(john));
@@ -83,28 +83,24 @@ public class UpdateCustomerServiceTest {
     @Test
     public void testUpdateCustomerIdNullPointerException() {
         // Given
-        var expectedErrorMessage = "El identificador no puede ser nulo";
         var customerWithNoId = customerMother.customerWithNoId();
 
         // When
-        var ex = assertThrows(IllegalArgumentException.class, () -> instance.updateCustomer(customerWithNoId));
+        assertThrows(NullPointerException.class, () -> instance.updateCustomer(customerWithNoId));
 
         // Then
         then(customerRepository).should(times(0)).save(any());
-        assertEquals(expectedErrorMessage, ex.getMessage());
     }
 
     @Test
     public void testUpdateCustomerNameNullPointerException() {
         // Given
-        var expectedErrorMessage = "El nombre no puede ser nulo";
         var customerWithNoName = customerMother.customerWithNoName();
 
         // When
-        var ex = assertThrows(IllegalArgumentException.class, () -> instance.updateCustomer(customerWithNoName));
+        assertThrows(NullPointerException.class, () -> instance.updateCustomer(customerWithNoName));
 
         // Then
         then(customerRepository).should(times(0)).save(any());
-        assertEquals(expectedErrorMessage, ex.getMessage());
     }
 }

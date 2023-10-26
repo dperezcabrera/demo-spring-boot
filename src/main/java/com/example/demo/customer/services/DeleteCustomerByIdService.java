@@ -13,7 +13,7 @@ public class DeleteCustomerByIdService {
     private final CustomerRepository customerRepository;
 
     @Transactional
-    public void deleteCustomerById(@NonNull Long customerId) {
+    public void deleteCustomerById(long customerId) {
         customerRepository.deleteById(customerId);
     }
 }
